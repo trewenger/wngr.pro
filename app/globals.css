@@ -1,0 +1,253 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   CSS VARIABLES - VS Code Dark Theme Inspired
+   ============================================ */
+
+:root {
+  /* Light mode colors (fallback) */
+  --background: 255 255 255;
+  --background-secondary: 245 245 245;
+  --background-tertiary: 235 235 235;
+  --foreground: 30 30 30;
+  --foreground-secondary: 60 60 60;
+  --foreground-tertiary: 120 120 120;
+  --accent: 0 122 204;
+  --accent-hover: 0 102 180;
+  --border: 220 220 220;
+
+  /* Fonts */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  --font-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.dark {
+  /* VS Code Dark Theme Colors */
+  --background: 13 13 13; /* #0d0d0d - Very dark background */
+  --background-secondary: 30 30 30; /* #1e1e1e - Slightly lighter */
+  --background-tertiary: 45 45 45; /* #2d2d2d - Cards/panels */
+  --foreground: 212 212 212; /* #d4d4d4 - Main text */
+  --foreground-secondary: 180 180 180; /* #b4b4b4 - Secondary text */
+  --foreground-tertiary: 140 140 140; /* #8c8c8c - Muted text */
+  --accent: 79 193 255; /* #4fc1ff - VS Code blue */
+  --accent-hover: 51 153 255; /* #3399ff - Hover state */
+  --border: 60 60 60; /* #3c3c3c - Borders */
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-background text-foreground transition-colors duration-300;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+@layer utilities {
+  /* Custom scrollbar for webkit browsers */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    @apply bg-background-secondary;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-foreground-tertiary rounded;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    @apply bg-foreground-secondary;
+  }
+
+  /* Text gradient utility */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      rgb(var(--accent)) 0%,
+      rgb(79, 193, 255) 50%,
+      rgb(147, 112, 219) 100%
+    );
+  }
+
+  /* Glow effect */
+  .glow {
+    box-shadow: 0 0 20px rgba(var(--accent), 0.3);
+  }
+
+  /* Card hover effect */
+  .card-hover {
+    @apply transition-all duration-300 hover:translate-y-[-4px] hover:shadow-xl;
+  }
+}
+
+/* ============================================
+   COMPONENT STYLES
+   ============================================ */
+
+@layer components {
+  /* Container */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Section spacing */
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  /* Button base styles */
+  .btn-base {
+    @apply px-6 py-3 rounded-lg font-medium transition-all duration-300 inline-flex items-center justify-center gap-2;
+  }
+
+  /* Link styles */
+  .link-hover {
+    @apply relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-accent after:transition-all after:duration-300 hover:after:w-full;
+  }
+
+  /* Card base */
+  .card-base {
+    @apply bg-background-tertiary border border-border rounded-lg p-6 transition-all duration-300;
+  }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(var(--accent), 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(var(--accent), 0.4);
+  }
+}
+
+/* ============================================
+   SELECTION STYLES
+   ============================================ */
+
+::selection {
+  background-color: rgb(var(--accent));
+  color: rgb(13 13 13);
+}
+
+::-moz-selection {
+  background-color: rgb(var(--accent));
+  color: rgb(13 13 13);
+}
+
+/* ============================================
+   FOCUS STYLES
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid rgb(var(--accent));
+  outline-offset: 2px;
+}
+
+/* Text border utilities - using text-shadow for borders on filled text */
+.text-border-thin {
+  text-shadow:
+    -0.5px -0.5px 0 #000,
+     0.5px -0.5px 0 #000,
+    -0.5px  0.5px 0 #000,
+     0.5px  0.5px 0 #000;
+}
+
+.text-border-accent-thin {
+  text-shadow:
+    -0.5px -0.5px 0 rgb(var(--accent)),
+     0.5px -0.5px 0 rgb(var(--accent)),
+    -0.5px  0.5px 0 rgb(var(--accent)),
+     0.5px  0.5px 0 rgb(var(--accent));
+  -webkit-text-fill-color: black;
+  opacity: 50%;
+}
+
+.text-border-accent {
+  text-shadow:
+    -1px -1px 0 rgb(var(--accent)),
+     1px -1px 0 rgb(var(--accent)),
+    -1px  1px 0 rgb(var(--accent)),
+     1px  1px 0 rgb(var(--accent));
+  -webkit-text-fill-color: transparent;
+}
+
+/* For hollow outline effect (no fill, just border) */
+.text-outline-accent {
+  -webkit-text-stroke: 2px rgb(var(--accent));
+  -webkit-text-fill-color: transparent;
+  text-stroke: 2px rgb(var(--accent));
+}
+
+.text-outline-accent-thin {
+  -webkit-text-stroke: 1px rgb(var(--accent));
+  -webkit-text-fill-color: transparent;
+  text-stroke: 1px rgb(var(--accent));
+  background-color: transparent;
+  background: transparent;
+  
+}
+
+.text-outline-test {
+  color: blue; /* Text fill color */
+  -webkit-text-stroke: 2px orange; /* Outline width and color */
+}

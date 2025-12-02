@@ -1,0 +1,9 @@
+# Project Images Directory
+
+Place your project images here.
+
+Example structure:
+- project-name-thumb.jpg (thumbnail for cards)
+- project-name-1.jpg (detail page images)
+- project-name-2.jpg
+- etc.
