@@ -1,0 +1,15 @@
+name = "portfolio"
+main = ".open-next/worker.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+# Environment variables (non-secret)
+# Add secrets (RESEND_API_KEY, CONTACT_EMAIL) via the Cloudflare dashboard:
+# Workers & Pages → Your Worker → Settings → Variables and Secrets
+[vars]
+NEXT_PUBLIC_SITE_URL = "https://wngr.dev"
+NEXT_PUBLIC_SITE_NAME = "Tre Wenger's Portfolio"
