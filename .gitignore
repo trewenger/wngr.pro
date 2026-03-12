@@ -39,6 +39,9 @@ next-env.d.ts
 # netlify
 .netlify
 
+# cloudflare / opennext build output
+.open-next/
+
 # resume
 Resume.pdf
 
@@ -52,6 +55,7 @@ deno.lock
 .env.local.example
 TODO.md
 CLAUDE.md
+CLOUDFLARE_MIGRATION.md
 .claude/*
 .claude
 ./.claude
