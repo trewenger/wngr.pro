@@ -18,7 +18,7 @@
 # misc
 .DS_Store
 *.pem
-CLOUDFLARE_MIGRATION/md
+CLOUDFLARE_MIGRATION.md
 
 # debug
 npm-debug.log*
