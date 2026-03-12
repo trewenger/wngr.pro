@@ -10,6 +10,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
+import { getCloudflareContext } from '@opennextjs/cloudflare'
 import type { ContactFormData, ContactFormResponse } from '@/types/contact'
 
 function isValidEmail(email: string): boolean {
@@ -54,7 +55,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (!process.env.RESEND_API_KEY) {
+    const { env } = getCloudflareContext()
+    const resendApiKey = (env as Record<string, string>).RESEND_API_KEY || process.env.RESEND_API_KEY
+    const toEmail = (env as Record<string, string>).CONTACT_EMAIL || process.env.CONTACT_EMAIL || 'trewenger@gmail.com'
+
+    if (!resendApiKey) {
       console.error('Missing RESEND_API_KEY environment variable')
       return NextResponse.json<ContactFormResponse>(
         { success: false, message: 'Email service not configured' },
@@ -62,12 +67,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const toEmail = process.env.CONTACT_EMAIL || 'trewenger@gmail.com'
-
     const resendResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Authorization': `Bearer ${resendApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
