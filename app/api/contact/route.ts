@@ -10,7 +10,6 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { Resend } from 'resend'
 import type { ContactFormData, ContactFormResponse } from '@/types/contact'
 
 export const runtime = 'edge'
@@ -65,15 +64,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const resend = new Resend(process.env.RESEND_API_KEY)
     const toEmail = process.env.CONTACT_EMAIL || 'trewenger@gmail.com'
 
-    await resend.emails.send({
-      from: 'noreply@wngr.dev',
-      to: toEmail,
-      subject: `Portfolio Contact: ${data.subject}`,
-      replyTo: data.email,
-      html: `
+    const resendResponse = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'noreply@wngr.dev',
+        to: toEmail,
+        subject: `Portfolio Contact: ${data.subject}`,
+        reply_to: data.email,
+        html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #4fc1ff; border-bottom: 2px solid #4fc1ff; padding-bottom: 10px;">
             New Contact Form Submission
@@ -109,7 +113,17 @@ ${data.message}
 ---
 Reply directly to this email to respond to ${data.name}.
       `,
+      }),
     })
+
+    if (!resendResponse.ok) {
+      const resendError = await resendResponse.text()
+      console.error('Resend API error:', resendError)
+      return NextResponse.json<ContactFormResponse>(
+        { success: false, message: 'Failed to send message. Please try again later.', error: resendError },
+        { status: 500 }
+      )
+    }
 
     return NextResponse.json<ContactFormResponse>({
       success: true,
