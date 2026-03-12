@@ -60,9 +60,10 @@ export async function POST(request: NextRequest) {
     const toEmail = (env as Record<string, string>).CONTACT_EMAIL || process.env.CONTACT_EMAIL || 'trewenger@gmail.com'
 
     if (!resendApiKey) {
-      console.error('Missing RESEND_API_KEY environment variable')
+      const cfEnvKeys = Object.keys(env as object).join(', ') || 'none'
+      const processEnvResend = Object.keys(process.env).filter(k => k.includes('RESEND')).join(', ') || 'none'
       return NextResponse.json<ContactFormResponse>(
-        { success: false, message: 'Email service not configured' },
+        { success: false, message: 'Email service not configured', error: `cf_keys: ${cfEnvKeys} | process_resend_keys: ${processEnvResend}` },
         { status: 500 }
       )
     }
