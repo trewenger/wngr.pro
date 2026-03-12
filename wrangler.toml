@@ -13,3 +13,6 @@ binding = "ASSETS"
 [vars]
 NEXT_PUBLIC_SITE_URL = "https://wngr.dev"
 NEXT_PUBLIC_SITE_NAME = "Tre Wenger's Portfolio"
+CONTACT_EMAIL = "trewenger@gmail.com"
+# RESEND_API_KEY is a secret — set via Cloudflare dashboard or `wrangler secret put RESEND_API_KEY`
+# For local dev, add RESEND_API_KEY to .env.local
