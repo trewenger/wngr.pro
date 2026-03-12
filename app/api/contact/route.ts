@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'noreply@wngr.dev',
+        from: 'noreply@wngr.pro',
         to: toEmail,
         subject: `Portfolio Contact: ${data.subject}`,
         reply_to: data.email,
