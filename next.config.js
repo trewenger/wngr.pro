@@ -12,9 +12,6 @@ const nextConfig = {
   // Disable x-powered-by header for security
   poweredByHeader: false,
 
-  // Netlify-specific configuration
-  // The Next.js plugin for Netlify handles most configuration automatically
-  output: 'standalone',
 }
 
 module.exports = nextConfig
