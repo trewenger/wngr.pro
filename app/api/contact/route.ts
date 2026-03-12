@@ -12,8 +12,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { ContactFormData, ContactFormResponse } from '@/types/contact'
 
-export const runtime = 'edge'
-
 function isValidEmail(email: string): boolean {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   return re.test(email)
